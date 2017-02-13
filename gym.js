@@ -101,47 +101,11 @@ var vertexColors = [
 //
 
 document.addEventListener("keydown", function (event) {
-
-    if ((event.which || event.keycode) == 187){ //+ button
-        if (crossHair == 0) crossHair = 1;
-        else crossHair = 0;
-    }
-    if ((event.which || event.keycode) == 67){ //c button
-        switchColors();
-    }
-    if ((event.which || event.keycode) == 38){ //up arrow
-        yAdjust = yAdjust - 0.25;
-    }
-    if ((event.which || event.keycode) == 40){ //down arrow
-        yAdjust = yAdjust + 0.25;
-    }
-    if ((event.which || event.keycode) == 73){ //i button
-        moveForward();
-    }
-    if ((event.which || event.keycode) == 77){ //m button
-        moveBackward();
-    }
-    if ((event.which || event.keycode) == 74){ //j button
-        moveLeft();
-    }
-    if ((event.which || event.keycode) == 75){ //k button
-        moveRight();
-    }
     if ((event.which || event.keycode) == 82){ //r button
         resetAdjust();
     }
-    if ((event.which || event.keycode) == 37){ //left arrowkey
-        thetaAzimuth = thetaAzimuth - 4;
-    }
-    if ((event.which || event.keycode) == 39){ //right arrowkey
-        thetaAzimuth = thetaAzimuth + 4;
-    }
-    if ((event.which || event.keycode) == 78){ //n button
-        fov = fov - 1;
-    }
-    if ((event.which || event.keycode) == 87){ //w button
-        fov = fov + 1;
-    }
+    // if ((event.which || event.keycode) == 49)
+        
 })
 
 //
