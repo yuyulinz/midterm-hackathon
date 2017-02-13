@@ -4,12 +4,12 @@ var canvas;
 //number of edges drawn
 var NumVerticesEdges = 48 * 4;
 var NumVerticesPerCube = 36;
-
+var NumVerticesPerCylinder = 0; ////implement this
 //buffers for points
 var points = [];
 
 //crosshair bit
-var crossHair = 0;
+var cylinder = 0;
 
 //offset for color array used to cycle through colors
 var colorAdjust = 0;
@@ -47,7 +47,7 @@ var worldMatrix;
 var viewMatrix;
 var projMatrix;
 
-//matrices for crosshair
+//matrices for cylinder
 var csViewMatrix;
 var csProjMatrix;
 
@@ -311,6 +311,26 @@ function quadedge(a, b, c, d, z)
 
 function render()
 {
+    //draw cylinder
+    if(cylinder == 1){
+        
+        updateCylinder();
+        
+        mat4.identity(worldMatrix);
+        //initialize static matrices
+        csViewMatrix = new Float32Array(16);
+        csProjMatrix = new Float32Array(16);
+        mat4.lookAt(csViewMatrix, [0, 0, 40],[0, 0, 0],[ 0, 1, 0]);
+        mat4.perspective(csProjMatrix, glMatrix.toRadian(45), canvas.width/canvas.height, 0.1, 1000.0);
+        
+        //load matrices
+        gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+        gl.uniformMatrix4fv(matViewUniformLocation, gl.FALSE, csViewMatrix);
+        gl.uniformMatrix4fv(matProjUniformLocation, gl.FALSE, csProjMatrix);
+        
+        //draw crosshair
+        gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4), NumVerticesPerCylinder);
+    }
     
     
     
@@ -356,6 +376,6 @@ function render()
         gl.uniform4fv(fColorUniformLocation, vertexColors[(i + colorAdjust)%8]);
         gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*i), NumVerticesPerCube );
     }
-    xAzimuth += 500
+    
     requestAnimFrame( render );
 }
