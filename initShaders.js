@@ -2,6 +2,8 @@
 //  initShaders.js
 //
 
+
+//test commit
 function initShaders( gl, vertexShaderId, fragmentShaderId )
 {
     var vertShdr;
