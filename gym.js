@@ -222,16 +222,6 @@ window.onload = function init() {
     gl.useProgram( program );
     
     
-    //
-    //set buffers
-    //
-    vBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
-
-    vPosition = gl.getAttribLocation( program, "vPosition" );
-    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vPosition );
     
     //
     //set uniform locations
@@ -317,6 +307,19 @@ function quadedge(a, b, c, d, z)
 
 function render()
 {
+    
+    //
+    //set buffers
+    //
+    vBuffer = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
+
+    vPosition = gl.getAttribLocation( program, "vPosition" );
+    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vPosition );
+    
+    
     //clear
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     
@@ -326,7 +329,7 @@ function render()
     //set the three world, view, and projection matrices
     //
     mat4.identity(worldMatrix); //identity
-    mat4.lookAt(viewMatrix, [0, 0, 40],[xAzimuth, 0, zAzimuth],[ 0, 1, 0]); //xAzimuth and zAzimuth decide where the camera points
+    mat4.lookAt(viewMatrix, [0, 0, 0],[xAzimuth, 0, zAzimuth],[ 0, 1, 0]); //xAzimuth and zAzimuth decide where the camera points
     mat4.scalar.translate(viewMatrix, viewMatrix, [xAdjust,yAdjust,zAdjust] ); //Adjustments used for translation
     mat4.perspective(projMatrix, glMatrix.toRadian(fov), canvas.width/canvas.height, 0.1, 1000.0); //projection fov is field of view
     
