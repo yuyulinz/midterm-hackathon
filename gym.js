@@ -19,9 +19,16 @@ var yAdjust = 0;
 var zAdjust = 0;
 var xAdjust = 0;
 
+//camera position
+var cameraX = 0;
+var cameraY = 4;
+var cameraZ = 0;
+
 //variables used to adjust Azimuth
+var cameraRadius = 15;
 var zAzimuth = 0;
 var xAzimuth = 0;
+var yAzimuth = 0;
 var thetaAzimuth = 0;
 var radian;
 
@@ -74,10 +81,6 @@ var vertices = [
         vec4v( -3,  3, 3, 1.0 ),
         vec4v(  3,  3, 3, 1.0 ),
         vec4v(  3, -3, 3, 1.0 ),
-        vec4v(  0, 1, 0, 1.0),
-        vec4v(  0, -1, 0, 1.0),
-        vec4v(  1, 0, 0, 1.0),
-        vec4v( -1, 0, 0, 1.0)
     ];
     
 //colors
@@ -147,9 +150,10 @@ function switchColors() {
 
 //calculate z and x adjustments for viewMatrix
 function calculateAzimuths() {
+    thetaAzimuth = thetaAzimuth + 1;
     radian = radians(thetaAzimuth);
-    zAzimuth = 40 - (40 * Math.cos(radian));
-    xAzimuth = 40*(Math.sin(radian));
+    zAzimuth = cameraRadius * Math.cos(radian);
+    xAzimuth = cameraRadius * Math.sin(radian);
 }
 
 
@@ -272,6 +276,8 @@ function quadedge(a, b, c, d, z)
 function render()
 {
     
+    
+    
     //
     //set buffers
     //
@@ -293,31 +299,12 @@ function render()
     //set the three world, view, and projection matrices
     //
     mat4.identity(worldMatrix); //identity
-    mat4.lookAt(viewMatrix, [0, 0, 0],[xAzimuth, 0, zAzimuth],[ 0, 1, 0]); //xAzimuth and zAzimuth decide where the camera points
+    mat4.lookAt(viewMatrix, [cameraX, cameraY, cameraZ],[xAzimuth, yAzimuth, zAzimuth],[ 0, 1, 0]); //xAzimuth and zAzimuth decide where the camera points
     mat4.scalar.translate(viewMatrix, viewMatrix, [xAdjust,yAdjust,zAdjust] ); //Adjustments used for translation
     mat4.perspective(projMatrix, glMatrix.toRadian(fov), canvas.width/canvas.height, 0.1, 1000.0); //projection fov is field of view
     
     //set color to white for edges
     gl.uniform4fv(fColorUniformLocation, vertexColors[9]);
-    
-    
-    //draw crosshair
-    if(crossHair == 1){
-        
-        //initialize static matrices
-        csViewMatrix = new Float32Array(16);
-        csProjMatrix = new Float32Array(16);
-        mat4.lookAt(csViewMatrix, [0, 0, 40],[0, 0, 0],[ 0, 1, 0]);
-        mat4.perspective(csProjMatrix, glMatrix.toRadian(45), canvas.width/canvas.height, 0.1, 1000.0);
-        
-        //load matrices
-        gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
-        gl.uniformMatrix4fv(matViewUniformLocation, gl.FALSE, csViewMatrix);
-        gl.uniformMatrix4fv(matProjUniformLocation, gl.FALSE, csProjMatrix);
-        
-        //draw crosshair
-        gl.drawArrays(gl.LINES, 0, 4);
-    }
     
     
     //load varying matrices for cubes
@@ -333,6 +320,6 @@ function render()
         gl.uniform4fv(fColorUniformLocation, vertexColors[(i + colorAdjust)%8]);
         gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*i), NumVerticesPerCube );
     }
-    
+    xAzimuth += 500
     requestAnimFrame( render );
 }
