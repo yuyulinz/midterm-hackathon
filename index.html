@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+        <title>CS174A Midterm Hackathon</title>
+    </head>
+    
+    <script id="vertex-shader" type="x-shader/x-vertex">
+    precision mediump float;
+    
+    attribute vec4 vPosition;
+    //attribute vec4 vColor;
+    //varying vec4 fColor;
+    
+    uniform mat4 mWorld;
+    uniform mat4 mView;
+    uniform mat4 mProj;
+    
+    void main()
+    {
+        //fColor = vColor;
+        gl_Position = mProj * mView * mWorld * vPosition;
+    }
+    </script>
+    
+    <script id="fragment-shader" type="x-shader/x-fragment">
+    precision mediump float;
+    
+    uniform vec4 fColor;
+    
+    void main()
+    {
+        gl_FragColor = fColor;
+    }
+    </script>
+    
+    
+    <script type="text/javascript" src="webgl-utils.js"></script>
+    <script type="text/javascript" src="initShaders.js"></script>
+    <script type="text/javascript" src="MV.js"></script>
+    <script type="text/javascript" src="gl-matrix.js"></script>
+    <script type="text/javascript" src="gym.js"></script>
+    
+
+    <body>
+        <canvas id="glCanvas" width="960" height="540">
+        Your browser does not support HTML5 canvas.
+        </canvas>
+        
+        
+    </body>
+</html>
