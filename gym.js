@@ -54,13 +54,13 @@ var program;
 
 //8 positioning vectors for the 8 cubes
 var moveVec = [
-        vec4v( 0, 0, 20, 0 ),
+        vec4v( 0, 0, 15, 0 ),
         //vec4v( 10, 10, -10, 0),
-        vec4v( 0, 0, -20, 0),
+        vec4v( 0, 0, -15, 0),
         //vec4v( 10, -10, -10, 0),
-        vec4v( -20, 0, 0, 0),
+        vec4v( -15, 0, 0, 0),
         //vec4v( -10, 10, -10, 0),
-        vec4v( 20, 0, 0, 0)
+        vec4v( 15, 0, 0, 0)
         //vec4v( -10, -10, -10, 0)
     ];
     
@@ -326,7 +326,7 @@ function render()
     //set the three world, view, and projection matrices
     //
     mat4.identity(worldMatrix); //identity
-    mat4.lookAt(viewMatrix, [0, 0, 0],[xAzimuth, 0, zAzimuth],[ 0, 1, 0]); //xAzimuth and zAzimuth decide where the camera points
+    mat4.lookAt(viewMatrix, [0, 0, 40],[xAzimuth, 0, zAzimuth],[ 0, 1, 0]); //xAzimuth and zAzimuth decide where the camera points
     mat4.scalar.translate(viewMatrix, viewMatrix, [xAdjust,yAdjust,zAdjust] ); //Adjustments used for translation
     mat4.perspective(projMatrix, glMatrix.toRadian(fov), canvas.width/canvas.height, 0.1, 1000.0); //projection fov is field of view
     
