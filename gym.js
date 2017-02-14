@@ -6,15 +6,15 @@ var NumVerticesEdges = 48 * 4;
 var NumVerticesPerCube = 36;
 var NumVerticesPerCylinder = 360*3;
 var NumVerticesPerCylinderHalfEdge = 360 * 6;
-var woodenHeight = 10;
-var bfitHeight = 9;
+var woodenHeight = 0.60;
+var bfitHeight = 0.10;
 
 //buffers for points
 var points = [];
 
 //cylinder variables
 var cylinder = 0;
-var cylinderRadius = 10;
+var cylinderRadius = 0.75;
 
 //offset for color array used to cycle through colors
 var colorAdjust = 0;
@@ -95,12 +95,12 @@ var vertexColors = [
         [ 1.0, 0.5, 0.0, 1.0 ],  // orange?
         [ 1.0, 0.0, 0.5, 1.0 ],  // purple? 
         [ 1.0, 0.0, 0.0, 1.0 ],  // red
-        [ 1.0, 1.0, 0.0, 1.0 ],  // yellow
         [ 0.0, 1.0, 0.0, 1.0 ],  // green
-        [ 0.0, 0.0, 1.0, 1.0 ],  // blue
         [ 1.0, 0.0, 1.0, 1.0 ],  // magenta
         [ 0.0, 1.0, 1.0, 0.5 ],  // cyan
         [ 0.0, 0.0, 0.0, 1.0 ],  // black
+        [ 1.0, 1.0, 0.0, 1.0 ],  // yellow
+        [ 0.0, 0.0, 1.0, 1.0 ],  // blue
         [ 1.0, 1.0, 1.0, 1.0 ],  // white
         [ 1.0, 1.0, 1.0, 0.5 ]   //transparent white
     ];
@@ -430,23 +430,23 @@ function cylinders(){
     //336 already pushed
     //base 540
     for ( var i = 0; i < 180; i++){
-        slice(i, -10);
+        slice(i, -1);
     }
     
     //base 540
     for ( var i = 180; i < 360; i++){
-        slice(i, -10);
+        slice(i, -1);
     }
     
     //1416 pushed
     //edge wooden 1080 1416-2495
     for (var i = 0; i < 180; i++){
-        cylinderEdge(i, -10);
+        cylinderEdge(i, -1);
     }
     //2496 pushed
     //edge bfit 1080 2496-3575
     for (var i = 180; i < 360; i++){
-        cylinderEdge(i, -10);
+        cylinderEdge(i, -1);
     }
     
     //3576 pushed
@@ -512,7 +512,7 @@ function updateCylinder(){
     //update bfit top
     for (var i = 4116; i < 4656; i++){
         points[i] = mult(points[i],vec4v(1,0,1,1));
-        points[i] = add(points[i],vec4v(0,woodenHeight,0,0));
+        points[i] = add(points[i],vec4v(0,bfitHeight,0,0));
     }
     
 }
@@ -552,6 +552,8 @@ function cylinderEdge(degree, height){
 function render()
 {
     
+    
+    
     //clear
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     
@@ -578,7 +580,7 @@ function render()
         //initialize static matrices
         csViewMatrix = new Float32Array(16);
         csProjMatrix = new Float32Array(16);
-        mat4.lookAt(csViewMatrix, [0, 10, 40],[0, 0, 0],[ 0, 1, 0]);
+        mat4.lookAt(csViewMatrix, [0, 2, 5],[0, 0, 0],[ 0, 1, 0]);
         mat4.perspective(csProjMatrix, glMatrix.toRadian(45), canvas.width/canvas.height, 0.1, 1000.0);
         
         //load matrices
@@ -589,11 +591,20 @@ function render()
         //draw base disk
         gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4), NumVerticesPerCylinder);
         
+        gl.uniform4fv(fColorUniformLocation, vertexColors[8]); //blue
         //draw height
-        gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4) + NumVerticesPerCylinder, NumVerticesPerCylinderHalfEdge);
+        gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4) + NumVerticesPerCylinder, NumVerticesPerCylinderHalfEdge/2);
         
+        gl.uniform4fv(fColorUniformLocation, vertexColors[7]); //yellow
+        gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4) + NumVerticesPerCylinder + NumVerticesPerCylinderHalfEdge/2, NumVerticesPerCylinderHalfEdge/2);
+        
+        gl.uniform4fv(fColorUniformLocation, vertexColors[9]); //blue
         //draw top disk
-        gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4) + NumVerticesPerCylinder + NumVerticesPerCylinderHalfEdge, NumVerticesPerCylinder);
+        gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4) + NumVerticesPerCylinder + NumVerticesPerCylinderHalfEdge, NumVerticesPerCylinder/2);
+        
+        gl.uniform4fv(fColorUniformLocation, vertexColors[9]); //yellow
+        
+        gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4) + NumVerticesPerCylinder + NumVerticesPerCylinderHalfEdge + NumVerticesPerCylinder/2, NumVerticesPerCylinder/2);
     }
     
     if(isRotating)
@@ -624,6 +635,8 @@ function render()
         gl.uniform4fv(fColorUniformLocation, vertexColors[(i + colorAdjust)%8]);
         gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*i), NumVerticesPerCube );
     }
+    
+    
 
     requestAnimFrame( render );
 }
