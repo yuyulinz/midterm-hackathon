@@ -58,6 +58,8 @@ var vPosition;
 //Webgl program
 var program;
 
+// flags
+var isRotating = true // flag to determine whether cubes should be rotating or not
 
 //8 positioning vectors for the 8 cubes
 var moveVec = [
@@ -103,68 +105,175 @@ var vertexColors = [
 //listen for keyboard inputs
 //
 
-document.addEventListener("keydown", function (event) {
+// var chooseMonThurs = () => {
+//     console.log('monThurs')
+//     isRotating = false
+//     // zAzimuth = 15
+//     // xAzimuth = 0
+//     console.log(setAzimuth(15, 0))
 
-    if ((event.which || event.keycode) == 187){ //+ button
-        if (crossHair == 0) crossHair = 1;
-        else crossHair = 0;
-    }
-    if ((event.which || event.keycode) == 67){ //c button
-        switchColors();
-    }
-    if ((event.which || event.keycode) == 38){ //up arrow
-        yAdjust = yAdjust - 0.25;
-    }
-    if ((event.which || event.keycode) == 40){ //down arrow
-        yAdjust = yAdjust + 0.25;
-    }
-    if ((event.which || event.keycode) == 73){ //i button
-        moveForward();
-    }
-    if ((event.which || event.keycode) == 77){ //m button
-        moveBackward();
-    }
-    if ((event.which || event.keycode) == 74){ //j button
-        moveLeft();
-    }
-    if ((event.which || event.keycode) == 75){ //k button
-        moveRight();
-    }
+// }
+
+// var chooseFri = () => {
+//     console.log('Fri')
+//     isRotating = false
+//     // zAzimuth = 0
+//     // xAzimuth = 15
+//     console.log(setAzimuth(0, 15))
+// }
+
+// var chooseSat = () => {
+//     console.log('Sat')
+//     isRotating = false
+//     // zAzimuth = -15
+//     // xAzimuth = 0
+//     console.log(setAzimuth(-15, 0))
+// }
+
+// var chooseSun = () => {
+//     console.log('Sun')
+//     isRotating = false
+//     // zAzimuth = 0
+//     // xAzimuth = -15
+//     console.log(setAzimuth(0, -15))
+// }
+
+// var setAzimuth = (zTarget, xTarget) => {
+//     console.log('starting azimuths:', zAzimuth, xAzimuth)
+//     console.log('target azimuths:', zTarget, xTarget)
+//     if(Math.floor(zAzimuth) > zTarget) {
+//         console.log('>z')
+//         setInterval(() => {
+//             if(Math.floor(zAzimuth) != zTarget) {    
+//                 zAzimuth -= 0.1
+//                 console.log('z:', zAzimuth)
+//             }
+//         }, 5)
+//     }
+
+//     if(Math.floor(xAzimuth) > xTarget){
+//         console.log('>x')
+//         setInterval(() => {
+//             if(Math.floor(xAzimuth) != xTarget){
+//                 xAzimuth -= 0.1
+//                 console.log('x:', xAzimuth)
+//             }
+//         }, 5)
+//     }
+
+//     if(Math.floor(zAzimuth) < zTarget) {
+//         console.log('<z')
+//         setInterval(() => {
+//             if (Math.ceil(zAzimuth) != zTarget) {
+//                 zAzimuth += 0.1
+//                 console.log('z:', zAzimuth)
+//             }
+//         }, 5)
+//     }
+//     if(Math.floor(xAzimuth) < xTarget){
+//         console.log('<x')
+//         setInterval(() => {
+//             if (Math.ceil(xAzimuth) != xTarget){
+//                 xAzimuth += 0.1
+//                 console.log('x:', xAzimuth)
+//             }
+//         }, 5)
+//     }
+//     if((Math.floor(zAzimuth) == zTarget && Math.floor(xAzimuth) == xTarget) || (Math.ceil(zAzimuth) == zTarget && Math.ceil(xAzimuth) == xTarget) ||
+//         (Math.floor(zAzimuth) == zTarget && Math.ceil(xAzimuth) == xTarget) || (Math.ceil(zAzimuth) == zTarget && Math.floor(xAzimuth) == xTarget)
+//         )
+//     {
+//         console.log('APPLE')
+//     }
+
+//     // console.log('ending azimuths:', zAzimuth, xAzimuth)
+// }
+
+document.addEventListener("keydown", function (event) {
     if ((event.which || event.keycode) == 82){ //r button
         resetAdjust();
     }
-    if ((event.which || event.keycode) == 37){ //left arrowkey
-        thetaAzimuth = thetaAzimuth - 4;
-    }
-    if ((event.which || event.keycode) == 39){ //right arrowkey
-        thetaAzimuth = thetaAzimuth + 4;
-    }
-    if ((event.which || event.keycode) == 78){ //n button
-        fov = fov - 1;
-    }
-    if ((event.which || event.keycode) == 87){ //w button
-        fov = fov + 1;
-    }
+    if ((event.which || event.keycode) == 49)
+        chooseMonThurs()
+    if ((event.which || event.keycode) == 50)
+        chooseFri()
+    if ((event.which || event.keycode) == 51)
+        chooseSat()
+    if ((event.which || event.keycode) == 52)
+        chooseSun()
 })
 
-//
-//move based on Azimuth and adjust x and z coordinates accordingly
-//
-function moveLeft() {
-    xAdjust = xAdjust - (Math.sin(radian - (Math.PI/2))*0.25);
-    zAdjust = zAdjust + (Math.cos(radian - (Math.PI/2))*0.25);
+var chooseMonThurs = () => {
+    isRotating = false
+    console.log('z:', Math.floor(zAzimuth), 'x:', Math.floor(xAzimuth))
+        // console.log('hello')
+            var monThurs = setInterval(() => {
+                console.log(Math.floor(zAzimuth), Math.floor(xAzimuth))
+                // console.log('test')
+                if(!(Math.floor(zAzimuth) == 14 && Math.floor(xAzimuth) == 0)) {
+                    thetaAzimuth = thetaAzimuth + 1
+                    radian = radians(thetaAzimuth);
+                    zAzimuth = cameraRadius * Math.cos(radian);
+                    xAzimuth = cameraRadius * Math.sin(radian);   
+                }
+                else {
+                    clearInterval(monThurs)
+                }
+            }, 5)
 }
-function moveRight() {
-    xAdjust = xAdjust + (Math.sin(radian - (Math.PI/2))*0.25);
-    zAdjust = zAdjust - (Math.cos(radian - (Math.PI/2))*0.25);
+
+var chooseFri = () => {
+    isRotating = false
+    console.log('z:', Math.floor(zAzimuth), 'x:', Math.floor(xAzimuth))
+        // console.log('hello')
+        var Fri = setInterval(() => {
+            console.log(Math.floor(zAzimuth), Math.floor(xAzimuth))
+            // console.log('test')
+            if(!(Math.floor(zAzimuth) == 0 && Math.floor(xAzimuth) == 14)) {
+                thetaAzimuth = thetaAzimuth + 1
+                radian = radians(thetaAzimuth);
+                zAzimuth = cameraRadius * Math.cos(radian);
+                xAzimuth = cameraRadius * Math.sin(radian);   
+            }
+            else
+                clearInterval(Fri)
+        }, 5)
 }
-function moveForward() {
-    xAdjust = xAdjust - Math.sin(radian)*0.25;
-    zAdjust = zAdjust + Math.cos(radian)*0.25;
+
+var chooseSat = () => {
+    isRotating = false
+    console.log('z:', Math.floor(zAzimuth), 'x:', Math.floor(xAzimuth))
+        // console.log('hello')
+        var Sat = setInterval(() => {
+            console.log(Math.floor(zAzimuth), Math.floor(xAzimuth))
+            // console.log('test')
+            if(!(Math.floor(zAzimuth) == -15 && Math.floor(xAzimuth) == 0)) {
+                thetaAzimuth = thetaAzimuth + 1
+                radian = radians(thetaAzimuth);
+                zAzimuth = cameraRadius * Math.cos(radian);
+                xAzimuth = cameraRadius * Math.sin(radian);   
+            }
+            else
+                clearInterval(Sat)
+        }, 5)
 }
-function moveBackward() {
-    xAdjust = xAdjust + Math.sin(radian)*0.25;
-    zAdjust = zAdjust - Math.cos(radian)*0.25;
+
+var chooseSun = () => {
+    isRotating = false
+    console.log('z:', Math.floor(zAzimuth), 'x:', Math.floor(xAzimuth))
+        // console.log('hello')
+        var Sun = setInterval(() => {
+            console.log(Math.floor(zAzimuth), Math.floor(xAzimuth))
+            // console.log('test')
+            if(!(Math.floor(zAzimuth) == 0 && Math.floor(xAzimuth) == -15)) {
+                thetaAzimuth = thetaAzimuth + 1
+                radian = radians(thetaAzimuth);
+                zAzimuth = cameraRadius * Math.cos(radian);
+                xAzimuth = cameraRadius * Math.sin(radian);   
+            }
+            else
+                clearInterval(Sun)
+        }, 5)
 }
 
 //
@@ -178,18 +287,14 @@ function resetAdjust() {
     fov = 45;
 }
 
-//colorAdjust cycles through from 0-7 and wraps around
-function switchColors() {
-    if (colorAdjust == 7) colorAdjust = 0;
-    else colorAdjust++;
-}
-
 //calculate z and x adjustments for viewMatrix
 function calculateAzimuths() {
-    thetaAzimuth = thetaAzimuth + 1;
-    radian = radians(thetaAzimuth);
-    zAzimuth = cameraRadius * Math.cos(radian);
-    xAzimuth = cameraRadius * Math.sin(radian);
+    if(isRotating){
+        thetaAzimuth = thetaAzimuth + 1;
+        radian = radians(thetaAzimuth);
+        zAzimuth = cameraRadius * Math.cos(radian);
+        xAzimuth = cameraRadius * Math.sin(radian);
+    }
 }
 
 
@@ -329,7 +434,8 @@ function render()
     //clear
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     
-    calculateAzimuths();
+    if(isRotating)
+        calculateAzimuths();
     
     //
     //set the three world, view, and projection matrices
@@ -356,6 +462,5 @@ function render()
         gl.uniform4fv(fColorUniformLocation, vertexColors[(i + colorAdjust)%8]);
         gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*i), NumVerticesPerCube );
     }
-    xAzimuth += 500
     requestAnimFrame( render );
 }
