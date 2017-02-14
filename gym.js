@@ -211,48 +211,533 @@ var chooseSun = () => {
 
 var updateTime = time => {
     var amOrPm = document.getElementById('amOrPm').value
-    if(amOrPm == "AM"){
-        switch(time) {
-            case 12: {
-                woodenHeight = 4
-                console.log("wooden", woodenHeight)
-            }
-            case 1: {
-                woodenHeight = 4
-                console.log("wooden", woodenHeight)
-            }
-            case 2: {
-                woodenHeight = 4
-                console.log("wooden", woodenHeight)
-            }
-            case 3: {
-                woodenHeight = 4
-                console.log("wooden", woodenHeight)
-            }
-            case 4: {
-                woodenHeight = 4
-                console.log("wooden", woodenHeight)
-            }
-            case 5: {
-                woodenHeight = 4
-                console.log("wooden", woodenHeight)
-            }
-            case 6: {
-                woodenHeight = 4
-                console.log("wooden", woodenHeight)
+    if(Math.floor(zAzimuth) == 14 && Math.floor(xAzimuth) == 0) {   
+        if(amOrPm == "AM"){
+            switch(time) {
+                case 12: {
+                    woodenHeight = .03
+                    bfitHeight = .1
+                    break
+                }
+                case 1: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 2: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 3: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 4: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 5: {
+                    woodenHeight = .03
+                    bfitHeight = -1
+                    break
+                }
+                case 6: {
+                    woodenHeight = .21
+                    bfitHeight = .105
+                    break
 
+                }
+                case 7: {
+                    woodenHeight = .2175
+                    bfitHeight = .2325
+                    break
+                }
+                case 8: {
+                    woodenHeight = .225
+                    bfitHeight = .2625
+                    break
+                }
+                case 9: {
+                    woodenHeight = .315
+                    bfitHeight = .36
+                    break
+                }
+                case 10: {
+                    woodenHeight = .405
+                    bfitHeight = .315
+                    break
+                }
+                case 11: {
+                    woodenHeight = .3225
+                    bfitHeight = .315
+                    break
+                }
             }
-            case 7: {
-                woodenHeight = 4
-                console.log("wooden", woodenHeight)
+        }
+        if(amOrPm == "PM"){
+            switch(time) {
+                case 12: {
+                    woodenHeight = .35
+                    bfitHeight = .3
+                    break
+                }
+                case 1: {
+                    woodenHeight = .38
+                    bfitHeight = .26
+                    break
+                }
+                case 2: {
+                    woodenHeight = .4
+                    bfitHeight = .3
+                    break
+                }
+                case 3: {
+                    woodenHeight = .52
+                    bfitHeight = .375
+                    break
+                }
+                case 4: {
+                    woodenHeight = .62
+                    bfitHeight = .51
+                    break
+                }
+                case 5: {
+                    woodenHeight = .578
+                    bfitHeight = .585
+                    break
+                }
+                case 6: {
+                    woodenHeight = .51
+                    bfitHeight = .562
+                    break
+
+                }
+                case 7: {
+                    woodenHeight = .48
+                    bfitHeight = .465
+                    break
+                }
+                case 8: {
+                    woodenHeight = .37
+                    bfitHeight = .48
+                    break
+                }
+                case 9: {
+                    woodenHeight = .28
+                    bfitHeight = .57
+                    break
+                }
+                case 10: {
+                    woodenHeight = .17
+                    bfitHeight = .5625
+                    break
+                }
+                case 11: {
+                    woodenHeight = 0
+                    bfitHeight = .435
+                    break
+                }
             }
-            case 8: {
-                woodenHeight = 4
-                console.log("wooden", woodenHeight)
+        }
+    }
+    if(Math.floor(zAzimuth) == 0 && Math.floor(xAzimuth) == 14) {   
+        if(amOrPm == "AM"){
+            switch(time) {
+                case 12: {
+                    woodenHeight = .45
+                    bfitHeight = .195
+                    break
+                }
+                case 1: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 2: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 3: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 4: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 5: {
+                    woodenHeight = .225
+                    bfitHeight = -1
+                    break
+                }
+                case 6: {
+                    woodenHeight = .12
+                    bfitHeight = .085
+                    break
+
+                }
+                case 7: {
+                    woodenHeight = .1725
+                    bfitHeight = .1425
+                    break
+                }
+                case 8: {
+                    woodenHeight = .2025
+                    bfitHeight = .2025
+                    break
+                }
+                case 9: {
+                    woodenHeight = .2475
+                    bfitHeight = .255
+                    break
+                }
+                case 10: {
+                    woodenHeight = .3075
+                    bfitHeight = .3
+                    break
+                }
+                case 11: {
+                    woodenHeight = .4275
+                    bfitHeight = .255
+                    break
+                }
             }
-            case 9: {
-                woodenHeight = 4
-                console.log("wooden", woodenHeight)
+        }
+        if(amOrPm == "PM"){
+            switch(time) {
+                case 12: {
+                    woodenHeight = .3075
+                    bfitHeight = .3
+                    break
+                }
+                case 1: {
+                    woodenHeight = .43
+                    bfitHeight = .36
+                    break
+                }
+                case 2: {
+                    woodenHeight = .42
+                    bfitHeight = .255
+                    break
+                }
+                case 3: {
+                    woodenHeight = .405
+                    bfitHeight = .2775
+                    break
+                }
+                case 4: {
+                    woodenHeight = .435
+                    bfitHeight = .3825
+                    break
+                }
+                case 5: {
+                    woodenHeight = .495
+                    bfitHeight = .5175
+                    break
+                }
+                case 6: {
+                    woodenHeight = .4875
+                    bfitHeight = .6
+                    break
+
+                }
+                case 7: {
+                    woodenHeight = .3825
+                    bfitHeight = .5475
+                    break
+                }
+                case 8: {
+                    woodenHeight = .3075
+                    bfitHeight = .42
+                    break
+                }
+                case 9: {
+                    woodenHeight = .2475
+                    bfitHeight = .44
+                    break
+                }
+                case 10: {
+                    woodenHeight = .1125
+                    bfitHeight = .24
+                    break
+                }
+                case 11: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+            }
+        }
+    }
+
+    //Saturday
+    if(Math.floor(zAzimuth) == -15 && Math.floor(xAzimuth) == 0) {   
+        if(amOrPm == "AM"){
+            switch(time) {
+                case 12: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 1: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 2: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 3: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 4: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 5: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 6: {
+                    woodenHeight = .18
+                    bfitHeight = .105
+                    break
+
+                }
+                case 7: {
+                    woodenHeight = .225
+                    bfitHeight = .2325
+                    break
+                }
+                case 8: {
+                    woodenHeight = .2025
+                    bfitHeight = .2625
+                    break
+                }
+                case 9: {
+                    woodenHeight = .195
+                    bfitHeight = .36
+                    break
+                }
+                case 10: {
+                    woodenHeight = .18
+                    bfitHeight = .315
+                    break
+                }
+                case 11: {
+                    woodenHeight = .2025
+                    bfitHeight = .315
+                    break
+                }
+            }
+        }
+        if(amOrPm == "PM"){
+            switch(time) {
+                case 12: {
+                    woodenHeight = .2175
+                    bfitHeight = .3
+                    break
+                }
+                case 1: {
+                    woodenHeight = .24
+                    bfitHeight = .26
+                    break
+                }
+                case 2: {
+                    woodenHeight = .27
+                    bfitHeight = .3
+                    break
+                }
+                case 3: {
+                    woodenHeight = .2475
+                    bfitHeight = .375
+                    break
+                }
+                case 4: {
+                    woodenHeight = .0975
+                    bfitHeight = .51
+                    break
+                }
+                case 5: {
+                    woodenHeight = -1
+                    bfitHeight = .585
+                    break
+                }
+                case 6: {
+                    woodenHeight = -1
+                    bfitHeight = .562
+                    break
+
+                }
+                case 7: {
+                    woodenHeight = -1
+                    bfitHeight = .465
+                    break
+                }
+                case 8: {
+                    woodenHeight = -1
+                    bfitHeight = .48
+                    break
+                }
+                case 9: {
+                    woodenHeight = -1
+                    bfitHeight = .57
+                    break
+                }
+                case 10: {
+                    woodenHeight = -1
+                    bfitHeight = .5625
+                    break
+                }
+                case 11: {
+                    woodenHeight = -1
+                    bfitHeight = .435
+                    break
+                }
+            }
+        }
+    }
+    if(Math.floor(zAzimuth) == 0 && Math.floor(xAzimuth) == -15) {   
+        if(amOrPm == "AM"){
+            switch(time) {
+                case 12: {
+                    woodenHeight = .03
+                    bfitHeight = .1
+                    break
+                }
+                case 1: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 2: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 3: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 4: {
+                    woodenHeight = -1
+                    bfitHeight = -1
+                    break
+                }
+                case 5: {
+                    woodenHeight = .03
+                    bfitHeight = -1
+                    break
+                }
+                case 6: {
+                    woodenHeight = .21
+                    bfitHeight = .105
+                    break
+
+                }
+                case 7: {
+                    woodenHeight = .2175
+                    bfitHeight = .2325
+                    break
+                }
+                case 8: {
+                    woodenHeight = .225
+                    bfitHeight = .2625
+                    break
+                }
+                case 9: {
+                    woodenHeight = .315
+                    bfitHeight = .36
+                    break
+                }
+                case 10: {
+                    woodenHeight = .405
+                    bfitHeight = .315
+                    break
+                }
+                case 11: {
+                    woodenHeight = .3225
+                    bfitHeight = .315
+                    break
+                }
+            }
+        }
+        if(amOrPm == "PM"){
+            switch(time) {
+                case 12: {
+                    woodenHeight = .35
+                    bfitHeight = .3
+                    break
+                }
+                case 1: {
+                    woodenHeight = .38
+                    bfitHeight = .26
+                    break
+                }
+                case 2: {
+                    woodenHeight = .4
+                    bfitHeight = .3
+                    break
+                }
+                case 3: {
+                    woodenHeight = .52
+                    bfitHeight = .375
+                    break
+                }
+                case 4: {
+                    woodenHeight = .62
+                    bfitHeight = .51
+                    break
+                }
+                case 5: {
+                    woodenHeight = .578
+                    bfitHeight = .585
+                    break
+                }
+                case 6: {
+                    woodenHeight = .51
+                    bfitHeight = .562
+                    break
+
+                }
+                case 7: {
+                    woodenHeight = .48
+                    bfitHeight = .465
+                    break
+                }
+                case 8: {
+                    woodenHeight = .37
+                    bfitHeight = .48
+                    break
+                }
+                case 9: {
+                    woodenHeight = .28
+                    bfitHeight = .57
+                    break
+                }
+                case 10: {
+                    woodenHeight = .17
+                    bfitHeight = .5625
+                    break
+                }
+                case 11: {
+                    woodenHeight = 0
+                    bfitHeight = .435
+                    break
+                }
             }
         }
     }
@@ -539,6 +1024,7 @@ function render()
     
     //draw cylinder
     if(cylinder == 1){
+        updateCylinder()
         
         mat4.identity(worldMatrix);
         //initialize static matrices
