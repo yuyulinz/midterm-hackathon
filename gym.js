@@ -6,8 +6,10 @@ var NumVerticesEdges = 48 * 4;
 var NumVerticesPerCube = 36;
 var NumVerticesPerCylinder = 360*3;
 var NumVerticesPerCylinderHalfEdge = 360 * 6;
+
 var woodenHeight = 0.60;
 var bfitHeight = 0.10;
+
 
 //buffers for points
 var points = [];
@@ -104,96 +106,6 @@ var vertexColors = [
         [ 1.0, 1.0, 1.0, 1.0 ],  // white
         [ 1.0, 1.0, 1.0, 0.5 ]   //transparent white
     ];
-
-
-
-//
-//listen for keyboard inputs
-//
-
-// var chooseMonThurs = () => {
-//     console.log('monThurs')
-//     isRotating = false
-//     // zAzimuth = 15
-//     // xAzimuth = 0
-//     console.log(setAzimuth(15, 0))
-
-// }
-
-// var chooseFri = () => {
-//     console.log('Fri')
-//     isRotating = false
-//     // zAzimuth = 0
-//     // xAzimuth = 15
-//     console.log(setAzimuth(0, 15))
-// }
-
-// var chooseSat = () => {
-//     console.log('Sat')
-//     isRotating = false
-//     // zAzimuth = -15
-//     // xAzimuth = 0
-//     console.log(setAzimuth(-15, 0))
-// }
-
-// var chooseSun = () => {
-//     console.log('Sun')
-//     isRotating = false
-//     // zAzimuth = 0
-//     // xAzimuth = -15
-//     console.log(setAzimuth(0, -15))
-// }
-
-// var setAzimuth = (zTarget, xTarget) => {
-//     console.log('starting azimuths:', zAzimuth, xAzimuth)
-//     console.log('target azimuths:', zTarget, xTarget)
-//     if(Math.floor(zAzimuth) > zTarget) {
-//         console.log('>z')
-//         setInterval(() => {
-//             if(Math.floor(zAzimuth) != zTarget) {    
-//                 zAzimuth -= 0.1
-//                 console.log('z:', zAzimuth)
-//             }
-//         }, 5)
-//     }
-
-//     if(Math.floor(xAzimuth) > xTarget){
-//         console.log('>x')
-//         setInterval(() => {
-//             if(Math.floor(xAzimuth) != xTarget){
-//                 xAzimuth -= 0.1
-//                 console.log('x:', xAzimuth)
-//             }
-//         }, 5)
-//     }
-
-//     if(Math.floor(zAzimuth) < zTarget) {
-//         console.log('<z')
-//         setInterval(() => {
-//             if (Math.ceil(zAzimuth) != zTarget) {
-//                 zAzimuth += 0.1
-//                 console.log('z:', zAzimuth)
-//             }
-//         }, 5)
-//     }
-//     if(Math.floor(xAzimuth) < xTarget){
-//         console.log('<x')
-//         setInterval(() => {
-//             if (Math.ceil(xAzimuth) != xTarget){
-//                 xAzimuth += 0.1
-//                 console.log('x:', xAzimuth)
-//             }
-//         }, 5)
-//     }
-//     if((Math.floor(zAzimuth) == zTarget && Math.floor(xAzimuth) == xTarget) || (Math.ceil(zAzimuth) == zTarget && Math.ceil(xAzimuth) == xTarget) ||
-//         (Math.floor(zAzimuth) == zTarget && Math.ceil(xAzimuth) == xTarget) || (Math.ceil(zAzimuth) == zTarget && Math.floor(xAzimuth) == xTarget)
-//         )
-//     {
-//         console.log('APPLE')
-//     }
-
-//     // console.log('ending azimuths:', zAzimuth, xAzimuth)
-// }
 
 document.addEventListener("keydown", function (event) {
     if ((event.which || event.keycode) == 82){ //r button
@@ -295,6 +207,55 @@ var chooseSun = () => {
                 clearInterval(Sun)
             }
         }, 5)
+}
+
+var updateTime = time => {
+    var amOrPm = document.getElementById('amOrPm').value
+    if(amOrPm == "AM"){
+        switch(time) {
+            case 12: {
+                woodenHeight = 4
+                console.log("wooden", woodenHeight)
+            }
+            case 1: {
+                woodenHeight = 4
+                console.log("wooden", woodenHeight)
+            }
+            case 2: {
+                woodenHeight = 4
+                console.log("wooden", woodenHeight)
+            }
+            case 3: {
+                woodenHeight = 4
+                console.log("wooden", woodenHeight)
+            }
+            case 4: {
+                woodenHeight = 4
+                console.log("wooden", woodenHeight)
+            }
+            case 5: {
+                woodenHeight = 4
+                console.log("wooden", woodenHeight)
+            }
+            case 6: {
+                woodenHeight = 4
+                console.log("wooden", woodenHeight)
+
+            }
+            case 7: {
+                woodenHeight = 4
+                console.log("wooden", woodenHeight)
+            }
+            case 8: {
+                woodenHeight = 4
+                console.log("wooden", woodenHeight)
+            }
+            case 9: {
+                woodenHeight = 4
+                console.log("wooden", woodenHeight)
+            }
+        }
+    }
 }
 
 //
