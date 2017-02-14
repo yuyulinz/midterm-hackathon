@@ -199,14 +199,22 @@ document.addEventListener("keydown", function (event) {
     if ((event.which || event.keycode) == 82){ //r button
         resetAdjust();
     }
-    if ((event.which || event.keycode) == 49)
+    if ((event.which || event.keycode) == 49){
         chooseMonThurs()
-    if ((event.which || event.keycode) == 50)
+        cylinder = 0;
+    }
+    if ((event.which || event.keycode) == 50){
         chooseFri()
-    if ((event.which || event.keycode) == 51)
+        cylinder = 0;
+    }
+    if ((event.which || event.keycode) == 51){
         chooseSat()
-    if ((event.which || event.keycode) == 52)
+        cylinder = 0;
+    }
+    if ((event.which || event.keycode) == 52){
         chooseSun()
+        cylinder = 0;
+    }
 })
 
 var chooseMonThurs = () => {
@@ -223,6 +231,7 @@ var chooseMonThurs = () => {
                     xAzimuth = cameraRadius * Math.sin(radian);   
                 }
                 else {
+                    cylinder = 1;
                     clearInterval(monThurs)
                 }
             }, 5)
@@ -241,8 +250,10 @@ var chooseFri = () => {
                 zAzimuth = cameraRadius * Math.cos(radian);
                 xAzimuth = cameraRadius * Math.sin(radian);   
             }
-            else
+            else{
+                cylinder = 1;
                 clearInterval(Fri)
+            }
         }, 5)
 }
 
@@ -259,8 +270,10 @@ var chooseSat = () => {
                 zAzimuth = cameraRadius * Math.cos(radian);
                 xAzimuth = cameraRadius * Math.sin(radian);   
             }
-            else
+            else{
+                cylinder = 1;
                 clearInterval(Sat)
+            }
         }, 5)
 }
 
@@ -277,8 +290,10 @@ var chooseSun = () => {
                 zAzimuth = cameraRadius * Math.cos(radian);
                 xAzimuth = cameraRadius * Math.sin(radian);   
             }
-            else
+            else{
+                cylinder = 1;
                 clearInterval(Sun)
+            }
         }, 5)
 }
 
@@ -371,13 +386,6 @@ window.onload = function init() {
 //
 function colorCube()
 {
-    /*
-    //4 vertices for crosshair
-    points.push(vertices[8]);
-    points.push(vertices[9]);
-    points.push(vertices[10]);
-    points.push(vertices[11]);
-    */
     
     //192
     //4 cubes, 6 squares to make cube edge
@@ -569,12 +577,7 @@ function render()
     gl.enableVertexAttribArray( vPosition );
     
     //draw cylinder
-    if(1){//cylinder == 1){
-        
-        //set color to white
-        gl.uniform4fv(fColorUniformLocation, vertexColors[10]);
-        
-        
+    if(cylinder == 1){
         
         mat4.identity(worldMatrix);
         //initialize static matrices
