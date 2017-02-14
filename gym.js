@@ -4,12 +4,17 @@ var canvas;
 //number of edges drawn
 var NumVerticesEdges = 48 * 4;
 var NumVerticesPerCube = 36;
-var NumVerticesPerCylinder = 0; ////implement this
+var NumVerticesPerCylinder = 360*3;
+var NumVerticesPerCylinderHalfEdge = 360 * 6;
+var woodenHeight = 10;
+var bfitHeight = 9;
+
 //buffers for points
 var points = [];
 
-//crosshair bit
+//cylinder variables
 var cylinder = 0;
+var cylinderRadius = 10;
 
 //offset for color array used to cycle through colors
 var colorAdjust = 0;
@@ -92,9 +97,10 @@ var vertexColors = [
         [ 0.0, 1.0, 0.0, 1.0 ],  // green
         [ 0.0, 0.0, 1.0, 1.0 ],  // blue
         [ 1.0, 0.0, 1.0, 1.0 ],  // magenta
-        [ 0.0, 1.0, 1.0, 1.0 ],  // cyan
+        [ 0.0, 1.0, 1.0, 0.5 ],  // cyan
         [ 0.0, 0.0, 0.0, 1.0 ],  // black
-        [ 1.0, 1.0, 1.0, 1.0 ]   // white
+        [ 1.0, 1.0, 1.0, 1.0 ],  // white
+        [ 1.0, 1.0, 1.0, 0.5 ]   //transparent white
     ];
 
 
@@ -188,6 +194,7 @@ function switchColors() {
 function calculateAzimuths() {
     thetaAzimuth = thetaAzimuth + 1;
     radian = radians(thetaAzimuth);
+    
     zAzimuth = cameraRadius * Math.cos(radian);
     xAzimuth = cameraRadius * Math.sin(radian);
 }
@@ -216,6 +223,8 @@ window.onload = function init() {
     //
     
     colorCube();
+    cylinders();
+    updateCylinder();
     
     
     //
@@ -264,6 +273,7 @@ function colorCube()
     points.push(vertices[11]);
     */
     
+    //192
     //4 cubes, 6 squares to make cube edge
     for(var i = 0; i < 4; i++){
         quadedge( 0, 1, 2, 3, i); //bottom
@@ -273,6 +283,7 @@ function colorCube()
         quadedge( 1, 2, 6, 5, i); //back
         quadedge( 4, 5, 6, 7, i); //top
     }
+    //144
     //4 cubes, 6 quads to make cube surface
     for(var i = 0; i < 4; i++){
         quad( 0, 1, 2, 3, i); //bottom
@@ -309,30 +320,134 @@ function quadedge(a, b, c, d, z)
     }
 }
 
-function render()
-{
-    //draw cylinder
-    if(cylinder == 1){
-        
-        updateCylinder();
-        
-        mat4.identity(worldMatrix);
-        //initialize static matrices
-        csViewMatrix = new Float32Array(16);
-        csProjMatrix = new Float32Array(16);
-        mat4.lookAt(csViewMatrix, [0, 0, 40],[0, 0, 0],[ 0, 1, 0]);
-        mat4.perspective(csProjMatrix, glMatrix.toRadian(45), canvas.width/canvas.height, 0.1, 1000.0);
-        
-        //load matrices
-        gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
-        gl.uniformMatrix4fv(matViewUniformLocation, gl.FALSE, csViewMatrix);
-        gl.uniformMatrix4fv(matProjUniformLocation, gl.FALSE, csProjMatrix);
-        
-        //draw crosshair
-        gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4), NumVerticesPerCylinder);
+function cylinders(){
+    //336 already pushed
+    //base 540
+    for ( var i = 0; i < 180; i++){
+        slice(i, -10);
     }
     
+    //base 540
+    for ( var i = 180; i < 360; i++){
+        slice(i, -10);
+    }
     
+    //1416 pushed
+    //edge wooden 1080 1416-2495
+    for (var i = 0; i < 180; i++){
+        cylinderEdge(i, -10);
+    }
+    //2496 pushed
+    //edge bfit 1080 2496-3575
+    for (var i = 180; i < 360; i++){
+        cylinderEdge(i, -10);
+    }
+    
+    //3576 pushed
+    //top wooden 540 3576-4115
+    for ( var i = 0; i < 180; i++){
+        slice(i, 6);
+    }
+    //4116 pushed
+    //top bfit 540 4116-4655
+    for ( var i = 180; i < 360; i++){
+        slice(i, 6);
+    }
+    //4656 pushed
+    
+}
+
+
+function updateCylinder(){
+    //update wooden edge
+    var check = 1;
+    for ( var i = 1416; i < 2496; i++){
+        //update three vertex skipping in groups of three
+        if(check < 3){
+            check++;
+            continue;
+        } else if(check > 5 ){
+            check = 1;
+            continue;
+        } else {
+            check++;    
+        }
+        
+        points[i] = mult(points[i],vec4v(1,0,1,1));
+        points[i] = add(points[i],vec4v(0,woodenHeight,0,0));
+        
+    }
+    
+    //update wooden top
+    for (var i = 3576; i < 4116; i++){
+        points[i] = mult(points[i],vec4v(1,0,1,1));
+        points[i] = add(points[i],vec4v(0,woodenHeight,0,0));
+    }
+    
+    //update bfit edge
+    check = 1;
+    for ( var i = 2496; i < 3576; i++){
+        //update three vertex skipping in groups of three
+        if(check < 3){
+            check++;
+            continue;
+        } else if(check > 5 ){
+            check = 1;
+            continue;
+        } else {
+            check++;    
+        }
+        
+        points[i] = mult(points[i],vec4v(1,0,1,1));
+        points[i] = add(points[i],vec4v(0,bfitHeight,0,0));
+        
+    }
+    
+    //update bfit top
+    for (var i = 4116; i < 4656; i++){
+        points[i] = mult(points[i],vec4v(1,0,1,1));
+        points[i] = add(points[i],vec4v(0,woodenHeight,0,0));
+    }
+    
+}
+
+
+function slice(degree, height){
+    var radian1 = radians(degree);
+    var radian2 = radians(degree+1);
+    var firstX = cylinderRadius * Math.sin(radian1);
+    var secondX = cylinderRadius * Math.sin(radian2);
+    var firstZ = cylinderRadius * Math.cos(radian1);
+    var secondZ = cylinderRadius * Math.cos(radian2);
+    
+    points.push(vec4v(firstX,height,firstZ,1.0));
+    points.push(vec4v(secondX,height,secondZ,1.0));
+    points.push(vec4v(0,height,0,1.0));
+    
+}
+
+function cylinderEdge(degree, height){
+    var radian1 = radians(degree);
+    var radian2 = radians(degree+1);
+    var firstX = cylinderRadius * Math.sin(radian1);
+    var secondX = cylinderRadius * Math.sin(radian2);
+    var firstZ = cylinderRadius * Math.cos(radian1);
+    var secondZ = cylinderRadius * Math.cos(radian2);
+    
+    points.push(vec4v(firstX,height,firstZ, 1.0));
+    points.push(vec4v(secondX,height,secondZ,1.0));
+    points.push(vec4v(firstX, 5, firstZ, 1.0));
+    points.push(vec4v(firstX,5,firstZ,1.0));
+    points.push(vec4v(secondX, 5, secondZ,1.0));
+    points.push(vec4v(secondX, height, secondZ, 1.0));
+}
+
+
+function render()
+{
+    
+    //clear
+    gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     
     //
     //set buffers
@@ -345,9 +460,35 @@ function render()
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
     
-    
-    //clear
-    gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    //draw cylinder
+    if(1){//cylinder == 1){
+        
+        //set color to white
+        gl.uniform4fv(fColorUniformLocation, vertexColors[10]);
+        
+        
+        
+        mat4.identity(worldMatrix);
+        //initialize static matrices
+        csViewMatrix = new Float32Array(16);
+        csProjMatrix = new Float32Array(16);
+        mat4.lookAt(csViewMatrix, [0, 10, 40],[0, 0, 0],[ 0, 1, 0]);
+        mat4.perspective(csProjMatrix, glMatrix.toRadian(45), canvas.width/canvas.height, 0.1, 1000.0);
+        
+        //load matrices
+        gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+        gl.uniformMatrix4fv(matViewUniformLocation, gl.FALSE, csViewMatrix);
+        gl.uniformMatrix4fv(matProjUniformLocation, gl.FALSE, csProjMatrix);
+        
+        //draw base disk
+        gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4), NumVerticesPerCylinder);
+        
+        //draw height
+        gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4) + NumVerticesPerCylinder, NumVerticesPerCylinderHalfEdge);
+        
+        //draw top disk
+        gl.drawArrays( gl.TRIANGLES, NumVerticesEdges + (NumVerticesPerCube*4) + NumVerticesPerCylinder + NumVerticesPerCylinderHalfEdge, NumVerticesPerCylinder);
+    }
     
     calculateAzimuths();
     
