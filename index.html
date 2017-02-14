@@ -4,6 +4,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
         <title>CS174A Midterm Hackathon</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+
     </head>
     
     <script id="vertex-shader" type="x-shader/x-vertex">
@@ -42,13 +46,42 @@
     <script type="text/javascript" src="MV.js"></script>
     <script type="text/javascript" src="gl-matrix.js"></script>
     <script type="text/javascript" src="gym.js"></script>
+    <script type="text/javascript" src="slider.js"></script>
+
+    <script>
+    $(document).ready(function() {
+      $('select').material_select();
+    });
+    </script>
+
+
     
 
     <body>
         <canvas id="glCanvas" width="960" height="540">
         Your browser does not support HTML5 canvas.
         </canvas>
-        
-        
+
+        <div class='buttons'>
+            <div class="input-field">
+                <select id='amOrPm'>
+                  <option value="" disabled selected>Choose AM/PM</option>
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+            </div>
+            <a onclick="updateTime(12)", class="waves-effect waves-light btn">12:00</a>
+            <a class="waves-effect waves-light btn">1:00</a>
+            <a class="waves-effect waves-light btn">2:00</a>
+            <a class="waves-effect waves-light btn">3:00</a>
+            <a class="waves-effect waves-light btn">4:00</a>
+            <a class="waves-effect waves-light btn">5:00</a>
+            <a class="waves-effect waves-light btn">6:00</a>
+            <a class="waves-effect waves-light btn">7:00</a>
+            <a class="waves-effect waves-light btn">8:00</a>
+            <a class="waves-effect waves-light btn">9:00</a>
+            <a class="waves-effect waves-light btn">10:00</a>
+            <a class="waves-effect waves-light btn">11:00</a>
+        </div>
     </body>
 </html>
